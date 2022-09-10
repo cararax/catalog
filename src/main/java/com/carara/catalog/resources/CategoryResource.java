@@ -1,6 +1,6 @@
 package com.carara.catalog.resources;
 
-import com.carara.catalog.entities.Category;
+import com.carara.catalog.dto.CategoryDTO;
 import com.carara.catalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,8 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categoryList = categoryService.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categoryList = categoryService.findAll();
         return ResponseEntity.ok().body(categoryList);
     }
-
-
 }
