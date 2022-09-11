@@ -2,12 +2,14 @@ package com.carara.catalog.services;
 
 import com.carara.catalog.dto.CategoryDTO;
 import com.carara.catalog.entities.Category;
+import com.carara.catalog.exceptions.EntityNotFoundException;
 import com.carara.catalog.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,5 +28,11 @@ public class CategoryService {
 //            categoryDTOList.add(new CategoryDTO(entity));
 //        }
         return categoryList.stream().map(CategoryDTO::new).collect(Collectors.toList());
+    }
+
+    public CategoryDTO findById(Long id) {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        Category category = categoryOptional.orElseThrow(() -> new EntityNotFoundException("Entity not found for id: " + id + "."));
+        return new CategoryDTO(category);
     }
 }
