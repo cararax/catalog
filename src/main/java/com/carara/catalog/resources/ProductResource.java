@@ -4,8 +4,7 @@ import com.carara.catalog.dto.ProductDTO;
 import com.carara.catalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,12 +25,8 @@ public class ProductResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                    @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-                                                    @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-                                                    @RequestParam(value = "orderBy", defaultValue = "name") String orderBy) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        Page<ProductDTO> productPage = productService.findAllPaged(pageRequest);
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+        Page<ProductDTO> productPage = productService.findAllPaged(pageable);
         return ResponseEntity.ok().body(productPage);
     }
 
